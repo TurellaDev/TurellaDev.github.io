@@ -236,10 +236,22 @@
     position:relative;
     padding-top:80px;
   }
+  .hero canvas{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    z-index:0;
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative;
+    z-index:1;
+    width:100%;
+  }
   .boot{
     font-family:var(--font-mono);font-size:12.5px;color:var(--text-dimmer);
     min-height:96px;
     margin-bottom:22px;
+    position:relative;
   }
   .boot p{margin-bottom:4px;opacity:0;animation:boot-in .35s forwards;}
   .boot p .ok{color:var(--accent);}
@@ -249,6 +261,7 @@
     font-size:clamp(2.4rem,7vw,5.2rem);
     line-height:1.02;
     margin-bottom:18px;
+    position:relative;
   }
   .hero h1 .accent{color:var(--accent);}
   .hero .role{
@@ -256,13 +269,15 @@
     font-size:clamp(1rem,2vw,1.25rem);
     color:var(--text-dim);
     margin-bottom:8px;
+    position:relative;
   }
   .hero .role .amber{color:var(--amber);}
   .hero .sub{
     max-width:520px;color:var(--text-dim);
     font-size:15.5px;margin-bottom:36px;
+    position:relative;
   }
-  .hero-cta{display:flex;gap:16px;flex-wrap:wrap;}
+  .hero-cta{display:flex;gap:16px;flex-wrap:wrap;position:relative;}
 
   .btn{
     font-family:var(--font-mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
@@ -282,6 +297,7 @@
     position:absolute;bottom:34px;left:clamp(20px,5vw,64px);
     display:flex;align-items:center;gap:10px;
     font-family:var(--font-mono);font-size:10.5px;letter-spacing:.15em;color:var(--text-dimmer);
+    z-index:1;
   }
   .scroll-hint .line{width:1px;height:34px;background:linear-gradient(to bottom, var(--accent), transparent);animation:scrollpulse 1.8s ease-in-out infinite;}
   @keyframes scrollpulse{0%,100%{opacity:.3;}50%{opacity:1;}}
@@ -450,15 +466,18 @@
 <main>
 
   <!-- HERO -->
-  <section class="hero wrap" id="hero">
-    <div class="boot" id="boot"></div>
+  <section class="hero" id="hero">
+    <canvas id="wave"></canvas>
+    <div class="hero-inner wrap">
+      <div class="boot" id="boot"></div>
 
-    <h1 id="heroTitle" style="opacity:0">Tiago Turella<span class="accent">.</span></h1>
-    <p class="role" id="heroRole" data-i18n="hero_role" style="opacity:0">Frontend Developer <span class="amber">//</span> keeping interfaces fast &amp; servers online</p>
-    <p class="sub" id="heroSub" data-i18n="hero_sub" style="opacity:0">Junior technical graduate from ETPR, building clean frontend UIs by day and running Minecraft server infrastructure by night. Portugal-based, always compiling something new.</p>
-    <div class="hero-cta" id="heroCta" style="opacity:0">
-      <a href="#work" class="btn btn-solid"><span data-i18n="hero_cta_work">View Work</span> <span class="arrow">→</span></a>
-      <a href="#contact" class="btn"><span data-i18n="hero_cta_contact">Contact</span> <span class="arrow">→</span></a>
+      <h1 id="heroTitle" style="opacity:0">Tiago Turella<span class="accent">.</span></h1>
+      <p class="role" id="heroRole" data-i18n="hero_role" style="opacity:0">Frontend Developer <span class="amber">//</span> keeping interfaces fast &amp; servers online</p>
+      <p class="sub" id="heroSub" data-i18n="hero_sub" style="opacity:0">Junior technical graduate from ETPR, building clean frontend UIs by day and running Minecraft server infrastructure by night. Portugal-based, always compiling something new.</p>
+      <div class="hero-cta" id="heroCta" style="opacity:0">
+        <a href="#work" class="btn btn-solid"><span data-i18n="hero_cta_work">View Work</span> <span class="arrow">→</span></a>
+        <a href="#contact" class="btn"><span data-i18n="hero_cta_contact">Contact</span> <span class="arrow">→</span></a>
+      </div>
     </div>
 
     <div class="scroll-hint"><div class="line"></div><span data-i18n="scroll_hint">SCROLL</span></div>
@@ -865,6 +884,198 @@
       grid.style.transform = 'translateY('+y+'px)';
     }, { passive:true });
   }
+})();
+</script>
+
+<script>
+// ---- hero background: animated dot-wave field, mouse-reactive only (no scroll hijack) ----
+(function(){
+  var hero = document.getElementById('hero');
+  var canvas = document.getElementById('wave');
+  if (!hero || !canvas) return;
+  var ctx = canvas.getContext('2d');
+
+  var W, H, DPR, PW, PH;
+  var imgData, buf32;
+
+  // ---- grid config ----
+  var COLS = 300;
+  var ROWS = 200;
+  var SPACING = 12;
+
+  // ---- camera / projection ----
+  // Ground-plane perspective: horizon sits at the vertical center of the hero,
+  // the field fills from there down to the bottom. CAM_HEIGHT is recomputed on
+  // every resize (as a fraction of the hero's height) so the near edge always
+  // overshoots the bottom of the section, regardless of viewport shape.
+  var FOCAL = 1000;
+  var CAM_DIST = 480;
+  var MIN_D = 60;
+  var MAX_SCALE = FOCAL / CAM_DIST;
+  var CAM_HEIGHT = 210;
+
+  var YAW = 0.16;
+  var cosY = Math.cos(YAW), sinY = Math.sin(YAW);
+
+  function resize(){
+    DPR = Math.min(window.devicePixelRatio || 1, 1.75);
+    var rect = hero.getBoundingClientRect();
+    W = rect.width;
+    H = rect.height;
+    PW = Math.round(W * DPR);
+    PH = Math.round(H * DPR);
+    canvas.width = PW;
+    canvas.height = PH;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    imgData = ctx.createImageData(PW, PH);
+    buf32 = new Uint32Array(imgData.data.buffer);
+
+    // near row should reach ~1.4x past the bottom edge so it's never cut short
+    CAM_HEIGHT = (H * 0.5 * 1.4) / MAX_SCALE;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // mouse disturbs the wave field, tracked in approximate world space
+  var mouseWorldX = 0, mouseWorldZ = ROWS * SPACING * 0.4;
+  var targetWorldX = mouseWorldX, targetWorldZ = mouseWorldZ;
+  var mouseActive = false, mouseStrength = 0;
+
+  function screenToWorld(clientX, clientY){
+    var rect = hero.getBoundingClientRect();
+    var nx = (clientX - rect.left) / rect.width - 0.5;
+    var ny = (clientY - rect.top) / rect.height;
+    var wz = (1 - ny) * ROWS * SPACING * 1.05;
+    var wx = nx * COLS * SPACING * 1.1;
+    return { x: wx, z: wz };
+  }
+  window.addEventListener('mousemove', function(e){
+    var rect = hero.getBoundingClientRect();
+    if (e.clientY < rect.top || e.clientY > rect.bottom) { mouseActive = false; return; }
+    var w = screenToWorld(e.clientX, e.clientY);
+    targetWorldX = w.x;
+    targetWorldZ = w.z;
+    mouseActive = true;
+  });
+  hero.addEventListener('mouseleave', function(){ mouseActive = false; });
+
+  // dominant diagonal wave direction -> long linear ripples running at an angle
+  var DIAG_ANGLE = 0.62;
+  var cosDiag = Math.cos(DIAG_ANGLE), sinDiag = Math.sin(DIAG_ANGLE);
+  var cosDiag2 = Math.cos(DIAG_ANGLE - 1.2), sinDiag2 = Math.sin(DIAG_ANGLE - 1.2);
+  var MOUSE_R2_CUTOFF = 1300 * 1300;
+
+  function wave(x, z, t, mx, mz, mStrength){
+    var d1 = x * cosDiag + z * sinDiag;
+    var d2 = x * cosDiag2 + z * sinDiag2;
+
+    var h = Math.sin(d1 * 0.011 - t * 1.15) * 27
+          + Math.sin(d2 * 0.018 + t * 0.55) * 9;
+
+    if (mStrength > 0.001){
+      var dx = x - mx, dz = z - mz;
+      var dist2 = dx * dx + dz * dz;
+      if (dist2 < MOUSE_R2_CUTOFF){
+        var dist = Math.sqrt(dist2);
+        h += mStrength * 46 * Math.exp(-dist / 240) * Math.sin(dist * 0.05 - t * 5.2);
+      }
+    }
+    return h;
+  }
+
+  // colors pulled from the site's own palette: dim slate dots, teal accent on wave peaks
+  var DOT = [124, 135, 148];   // --text-dim
+  var PEAK = [0, 230, 184];    // --accent
+  var isLittleEndian = (function(){
+    var buf = new ArrayBuffer(4);
+    new Uint32Array(buf)[0] = 0x0a0b0c0d;
+    return new Uint8Array(buf)[0] === 0x0d;
+  })();
+  function packRGBA(r, g, b, a){
+    return isLittleEndian ? (a<<24)|(b<<16)|(g<<8)|r : (r<<24)|(g<<16)|(b<<8)|a;
+  }
+
+  var EDGE_FADE_START = ROWS * 0.82;
+  var EDGE_FADE_SPAN = ROWS - EDGE_FADE_START;
+
+  // pause rendering work while the hero is scrolled out of view
+  var heroVisible = true;
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      heroVisible = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    io.observe(hero);
+  }
+
+  var t = 0;
+  function frame(){
+    requestAnimationFrame(frame);
+    if (!heroVisible) return;
+
+    t += 0.012;
+    buf32.fill(0);
+
+    mouseWorldX += (targetWorldX - mouseWorldX) * 0.08;
+    mouseWorldZ += (targetWorldZ - mouseWorldZ) * 0.08;
+    mouseStrength += ((mouseActive ? 1 : 0) - mouseStrength) * 0.06;
+
+    var cx = PW / 2;
+    var cy = PH * 0.5;
+    var pxScale = DPR;
+
+    for (var r = ROWS - 1; r >= 0; r--){
+      var pz = r * SPACING;
+
+      var edgeFade = 1;
+      if (r > EDGE_FADE_START) edgeFade = Math.max(0, 1 - (r - EDGE_FADE_START) / EDGE_FADE_SPAN);
+      if (edgeFade <= 0.01) continue;
+
+      for (var c = 0; c < COLS; c++){
+        var px = (c - COLS / 2) * SPACING;
+        var y = wave(px, pz, t, mouseWorldX, mouseWorldZ, mouseStrength);
+
+        var x = px * cosY - pz * sinY;
+        var zYawed = px * sinY + pz * cosY;
+
+        var d = zYawed + CAM_DIST;
+        if (d < MIN_D) d = MIN_D;
+
+        var scale = FOCAL / d;
+        var sx = (cx + x * scale * pxScale) | 0;
+        var sy = (cy + (CAM_HEIGHT - y) * scale * pxScale) | 0;
+
+        if (sx < 0 || sx >= PW || sy < cy - 4 || sy >= PH) continue;
+
+        var near = scale / MAX_SCALE;
+        var peak = Math.max(0, y / 40);
+        var alpha = Math.min(0.85, 0.22 + near * 0.42 + peak * 0.22) * edgeFade;
+        if (alpha <= 0.02) continue;
+
+        var col = peak > 0.5 ? PEAK : DOT;
+        var a255 = (alpha * 255) | 0;
+        var packed = packRGBA(col[0], col[1], col[2], a255);
+
+        var size = Math.min(3, Math.max(1, ((0.85 * scale * 0.55) * pxScale) | 0));
+
+        if (size <= 1){
+          buf32[sy * PW + sx] = packed;
+        } else {
+          var half = size >> 1;
+          var x0 = Math.max(0, sx - half), x1 = Math.min(PW - 1, sx + half);
+          var y0 = Math.max(0, sy - half), y1 = Math.min(PH - 1, sy + half);
+          for (var yy = y0; yy <= y1; yy++){
+            var rowOff = yy * PW;
+            for (var xx = x0; xx <= x1; xx++) buf32[rowOff + xx] = packed;
+          }
+        }
+      }
+    }
+
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  requestAnimationFrame(frame);
 })();
 </script>
 
