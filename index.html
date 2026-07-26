@@ -381,6 +381,7 @@
     display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
   }
   .node-status.exp{border-color:rgba(var(--amber-rgb),.4);color:var(--amber);}
+  .node-status.done{border-color:var(--line-bright);color:var(--text-dim);}
   .node-status i{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 6px currentColor;flex-shrink:0;}
   .node-desc{color:var(--text-dim);max-width:640px;font-size:14.5px;margin-bottom:20px;}
   .node-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;}
@@ -552,7 +553,24 @@
     <div class="node-card reveal">
       <div class="node-top">
         <div>
-          <div class="node-id">NODE // 01</div>
+          <div class="node-id">TRABALHO // 01</div>
+          <h3 class="node-title">PTISP.pt</h3>
+        </div>
+        <span class="node-status done"><i></i><span data-i18n="status_completed">COMPLETED</span></span>
+      </div>
+      <p class="node-desc" data-i18n="ptisp_desc">A year as a server operator at PTISP.pt, a Portuguese hosting and infrastructure provider. Day to day, I monitored the health of dedicated servers and VPS instances (CPU, memory, disk and network), diagnosed and resolved hardware and connectivity incidents, and provided direct technical support to clients through a ticketing system. I managed virtualization environments (KVM/Proxmox), applied security patches and system hardening, kept backup and disaster-recovery routines running, and escalated critical issues under a 24/7 on-call rotation to keep client uptime SLAs met.</p>
+      <div class="node-tags">
+        <span class="tag">Linux</span><span class="tag">Server Ops</span><span class="tag">Virtualization</span><span class="tag">Networking</span><span class="tag">Security</span><span class="tag">24/7 Support</span>
+      </div>
+      <div class="node-links">
+        <a class="node-link" href="https://ptisp.pt" target="_blank" rel="noopener">ptisp.pt ↗</a>
+      </div>
+    </div>
+
+    <div class="node-card reveal d1">
+      <div class="node-top">
+        <div>
+          <div class="node-id">TRABALHO // 02</div>
           <h3 class="node-title">Craft and Helps</h3>
         </div>
         <span class="node-status"><i></i><span data-i18n="status_active">ACTIVE</span></span>
@@ -566,10 +584,10 @@
       </div>
     </div>
 
-    <div class="node-card reveal d1">
+    <div class="node-card reveal d2">
       <div class="node-top">
         <div>
-          <div class="node-id">NODE // 02</div>
+          <div class="node-id">TRABALHO // 03</div>
           <h3 class="node-title">TurellaDev</h3>
         </div>
         <span class="node-status"><i></i><span data-i18n="status_active">ACTIVE</span></span>
@@ -584,10 +602,10 @@
       </div>
     </div>
 
-    <div class="node-card reveal d2">
+    <div class="node-card reveal d3">
       <div class="node-top">
         <div>
-          <div class="node-id">NODE // 03</div>
+          <div class="node-id">TRABALHO // 04</div>
           <h3 class="node-title">BeamNG ECU Tuning Interface</h3>
         </div>
         <span class="node-status exp"><i></i><span data-i18n="status_experimental">EXPERIMENTAL</span></span>
@@ -648,9 +666,10 @@
       about_tag1:"UI DE FRONTEND", about_tag2:"DESIGN 16-BIT", about_tag3:"EDIÇÃO DE VÍDEO", about_tag4:"OPERAÇÕES DE SERVIDOR", about_tag5:"DESENVOLVIMENTO MINECRAFT",
       stack_num:"U03 / STACK", stack_title:"Módulos instalados",
       stack_desc1:"Scripting principal e interatividade", stack_desc2:"Builds tipados e ferramentas", stack_desc3:"Azuriom CMS e serviços backend", stack_desc4:"Plugins de servidor Minecraft", stack_desc5:"Ferramentas e utilitários personalizados", stack_desc6:"Scripting e automação", stack_desc7:"Ferramentas legadas", stack_desc8:"Estilo de interface e animação",
-      work_num:"U04 / TRABALHO", work_title:"Nós em execução",
-      status_active:"ATIVO", status_experimental:"EXPERIMENTAL",
-      node1_desc:"Uma comunidade de Minecraft MMORPG onde trabalho atualmente — a contribuir para a infraestrutura do servidor de jogo e para a plataforma web em Azuriom construída sobre ela. Nós geridos por Pterodactyl atrás de Cloudflare e nginx, com uma base de dados MariaDB a manter tudo sincronizado.",
+      work_num:"U04 / TRABALHO", work_title:"Projetos e trabalhos",
+      status_active:"ATIVO", status_experimental:"EXPERIMENTAL", status_completed:"CONCLUÍDO",
+      ptisp_desc:"Um ano como operador de servidores na PTISP.pt, uma empresa portuguesa de alojamento e infraestrutura. No dia a dia, monitorizava a saúde de servidores dedicados e VPS (CPU, memória, disco e rede), diagnosticava e resolvia incidentes de hardware e conectividade, e dava suporte técnico direto a clientes através de um sistema de tickets. Geria ambientes de virtualização (KVM/Proxmox), aplicava patches de segurança e hardening de sistemas, mantinha rotinas de backup e disaster recovery, e escalava problemas críticos em regime de disponibilidade 24/7 para garantir os SLAs de uptime acordados com os clientes.",
+      node1_desc:"Uma comunidade de Minecraft MMORPG onde trabalho atualmente — a contribuir para a infraestrutura do servidor de jogo e para a plataforma web em Azuriom construída sobre ela. Servidores geridos por Pterodactyl atrás de Cloudflare e nginx, com uma base de dados MariaDB a manter tudo sincronizado.",
       node2_desc:"A minha marca pessoal e espaço de experimentação — um canto cyberpunk da web onde publico experiências frontend, trabalho de portfólio e seja qual for o projeto que ocupa o meu tempo livre no momento.",
       node3_desc:"Um conceito de interface de tuning para BeamNG, a explorar como uma ferramenta técnica e densa em dados ainda pode parecer acessível — um projeto paralelo em curso que junta design de UI e modding de jogos.",
       contact_num:"U05 / CONTACTO", contact_title:"Abrir uma ligação",
@@ -680,7 +699,8 @@
       stack_num:"U03 / STACK", stack_title:"Installed modules",
       stack_desc1:"Core scripting &amp; interactivity", stack_desc2:"Typed builds &amp; tooling", stack_desc3:"Azuriom CMS &amp; backend services", stack_desc4:"Minecraft server plugins", stack_desc5:"Tools &amp; custom utilities", stack_desc6:"Scripting &amp; automation", stack_desc7:"Legacy tooling", stack_desc8:"Interface styling &amp; motion",
       work_num:"U04 / WORK", work_title:"Running nodes",
-      status_active:"ACTIVE", status_experimental:"EXPERIMENTAL",
+      status_active:"ACTIVE", status_experimental:"EXPERIMENTAL", status_completed:"COMPLETED",
+      ptisp_desc:"A year as a server operator at PTISP.pt, a Portuguese hosting and infrastructure provider. Day to day, I monitored the health of dedicated servers and VPS instances (CPU, memory, disk and network), diagnosed and resolved hardware and connectivity incidents, and provided direct technical support to clients through a ticketing system. I managed virtualization environments (KVM/Proxmox), applied security patches and system hardening, kept backup and disaster-recovery routines running, and escalated critical issues under a 24/7 on-call rotation to keep client uptime SLAs met.",
       node1_desc:"A Minecraft MMORPG server community I'm currently working on — contributing across game server infrastructure and the Azuriom-powered web platform sitting on top of it. Pterodactyl-managed nodes behind Cloudflare and nginx, with a MariaDB backend keeping everything in sync.",
       node2_desc:"My personal brand and dev playground — a cyberpunk-themed corner of the web where I ship frontend experiments, portfolio work, and whatever project is currently eating my free time.",
       node3_desc:"A custom tuning interface concept for BeamNG, exploring how a technical, data-dense tool can still feel approachable — an ongoing side project bridging UI design and game modding.",
@@ -711,7 +731,8 @@
       stack_num:"U03 / STACK", stack_title:"Módulos instalados",
       stack_desc1:"Scripting principal e interactividad", stack_desc2:"Builds tipados y herramientas", stack_desc3:"Azuriom CMS y servicios backend", stack_desc4:"Plugins de servidor Minecraft", stack_desc5:"Herramientas y utilidades personalizadas", stack_desc6:"Scripting y automatización", stack_desc7:"Herramientas heredadas", stack_desc8:"Estilo de interfaz y animación",
       work_num:"U04 / TRABAJO", work_title:"Nodos en ejecución",
-      status_active:"ACTIVO", status_experimental:"EXPERIMENTAL",
+      status_active:"ACTIVO", status_experimental:"EXPERIMENTAL", status_completed:"COMPLETADO",
+      ptisp_desc:"Un año como operador de servidores en PTISP.pt, un proveedor portugués de alojamiento e infraestructura. En el día a día, monitorizaba el estado de servidores dedicados y VPS (CPU, memoria, disco y red), diagnosticaba y resolvía incidencias de hardware y conectividad, y ofrecía soporte técnico directo a clientes a través de un sistema de tickets. Gestionaba entornos de virtualización (KVM/Proxmox), aplicaba parches de seguridad y hardening de sistemas, mantenía rutinas de backup y recuperación ante desastres, y escalaba problemas críticos en un régimen de disponibilidad 24/7 para cumplir los SLA de uptime acordados con los clientes.",
       node1_desc:"Una comunidad de Minecraft MMORPG en la que trabajo actualmente — contribuyendo a la infraestructura del servidor de juego y a la plataforma web en Azuriom construida sobre ella. Nodos gestionados con Pterodactyl detrás de Cloudflare y nginx, con una base de datos MariaDB manteniendo todo sincronizado.",
       node2_desc:"Mi marca personal y espacio de experimentación — un rincón cyberpunk de la web donde publico experimentos frontend, trabajo de portafolio y cualquier proyecto que ocupe mi tiempo libre en cada momento.",
       node3_desc:"Un concepto de interfaz de tuning para BeamNG, explorando cómo una herramienta técnica y densa en datos puede seguir siendo accesible — un proyecto paralelo en curso que combina diseño de UI y modding de videojuegos.",
