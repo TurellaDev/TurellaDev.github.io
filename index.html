@@ -7,7 +7,7 @@
 <meta name="description" content="Tiago Turella — Frontend developer. Building interfaces, running the servers behind them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&family=Nova+Script&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#05080d;
@@ -24,6 +24,7 @@
     --amber-rgb:255,176,32;
     --font-mono:'JetBrains Mono',ui-monospace,monospace;
     --font-body:'Inter',system-ui,sans-serif;
+    --font-script:'Nova Script',cursive;
     --edge:1px solid var(--line);
     --sidebar-w:64px;
   }
@@ -179,7 +180,7 @@
     margin-bottom:18px;
   }
 
-  h1,h2,h3{font-family:var(--font-mono);font-weight:700;letter-spacing:-.01em;color:#f2f5f8;}
+  h1,h2,h3{font-family:var(--font-script);font-weight:400;letter-spacing:.01em;color:#f2f5f8;}
 
   /* ---------- scroll reveal ---------- */
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease, transform .8s ease;}
@@ -258,7 +259,7 @@
   @keyframes boot-in{to{opacity:1;}}
 
   .hero h1{
-    font-size:clamp(2.4rem,7vw,5.2rem);
+    font-size:clamp(2.8rem,7.5vw,6rem);
     line-height:1.02;
     margin-bottom:18px;
     position:relative;
@@ -306,7 +307,7 @@
   .sec{padding:120px 0;border-top:var(--edge);position:relative;}
   .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:56px;flex-wrap:wrap;}
   .sec-num{font-family:var(--font-mono);font-size:12px;color:var(--text-dimmer);letter-spacing:.1em;}
-  .sec-title{font-size:clamp(1.7rem,3.4vw,2.4rem);}
+  .sec-title{font-size:clamp(2rem,4vw,2.9rem);}
 
   /* ---------- about ---------- */
   .about-grid{
@@ -373,7 +374,7 @@
   }
   .node-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:16px;flex-wrap:wrap;}
   .node-id{font-family:var(--font-mono);font-size:11px;color:var(--text-dimmer);letter-spacing:.12em;margin-bottom:6px;}
-  .node-title{font-size:clamp(1.2rem,2.4vw,1.6rem);}
+  .node-title{font-size:clamp(1.5rem,2.8vw,2rem);}
   .node-status{
     font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;
     padding:5px 10px;border:1px solid rgba(var(--accent-rgb),.4);color:var(--accent);
@@ -405,7 +406,7 @@
   }
   .term-line{font-family:var(--font-mono);font-size:13px;color:var(--text-dim);margin-bottom:6px;position:relative;}
   .term-line .p{color:var(--accent);}
-  .contact-panel h2{font-size:clamp(1.8rem,4.4vw,3rem);margin:14px 0 20px;position:relative;}
+  .contact-panel h2{font-size:clamp(2.2rem,5vw,3.6rem);margin:14px 0 20px;position:relative;}
   .contact-panel p{color:var(--text-dim);max-width:480px;margin-bottom:30px;position:relative;font-size:14.5px;}
 
   footer{
@@ -437,11 +438,11 @@
 <aside class="rack-sidebar" aria-hidden="true">
   <div class="rack-track">
     <div class="rack-fill" id="rackFill"></div>
-    <div class="rack-tick" style="top:0%" data-sec="hero"><span class="lbl">U01 · HERO</span></div>
-    <div class="rack-tick" style="top:25%" data-sec="about"><span class="lbl" data-i18n="about_num">U02 · ABOUT</span></div>
-    <div class="rack-tick" style="top:50%" data-sec="stack"><span class="lbl" data-i18n="stack_num">U03 · STACK</span></div>
-    <div class="rack-tick" style="top:75%" data-sec="work"><span class="lbl" data-i18n="work_num">U04 · WORK</span></div>
-    <div class="rack-tick" style="top:100%" data-sec="contact"><span class="lbl" data-i18n="contact_num">U05 · CONTACT</span></div>
+    <div class="rack-tick" style="top:0%" data-sec="hero"><span class="lbl" data-i18n="rack_hero">U01 · Início</span></div>
+    <div class="rack-tick" style="top:25%" data-sec="about"><span class="lbl" data-i18n="rack_about">U02 · Sobre</span></div>
+    <div class="rack-tick" style="top:50%" data-sec="stack"><span class="lbl" data-i18n="rack_stack">U03 · Stacks</span></div>
+    <div class="rack-tick" style="top:75%" data-sec="work"><span class="lbl" data-i18n="rack_work">U04 · Projetos</span></div>
+    <div class="rack-tick" style="top:100%" data-sec="contact"><span class="lbl" data-i18n="rack_contact">U05 · Contactos</span></div>
   </div>
   <div class="rack-brand">TURELLA.SYS</div>
 </aside>
@@ -630,6 +631,7 @@
     pt: {
       nav_about:"Sobre", nav_stack:"Stack", nav_work:"Trabalho", nav_contact:"Contacto",
       scroll_hint:"DESLIZAR",
+      rack_hero:"U01 · Início", rack_about:"U02 · Sobre", rack_stack:"U03 · Stacks", rack_work:"U04 · Projetos", rack_contact:"U05 · Contactos",
       boot:[
         "a ligar a turelladev.node ...",
         'a autenticar utilizador: tiago_turella <span class="ok">[OK]</span>',
@@ -660,6 +662,7 @@
     en: {
       nav_about:"About", nav_stack:"Stack", nav_work:"Work", nav_contact:"Contact",
       scroll_hint:"SCROLL",
+      rack_hero:"U01 · Home", rack_about:"U02 · About", rack_stack:"U03 · Stacks", rack_work:"U04 · Projects", rack_contact:"U05 · Contact",
       boot:[
         "connecting to turelladev.node ...",
         'authenticating user: tiago_turella <span class="ok">[OK]</span>',
@@ -690,6 +693,7 @@
     es: {
       nav_about:"Sobre", nav_stack:"Stack", nav_work:"Trabajo", nav_contact:"Contacto",
       scroll_hint:"DESPLAZAR",
+      rack_hero:"U01 · Inicio", rack_about:"U02 · Sobre", rack_stack:"U03 · Stacks", rack_work:"U04 · Proyectos", rack_contact:"U05 · Contacto",
       boot:[
         "conectando a turelladev.node ...",
         'autenticando usuario: tiago_turella <span class="ok">[OK]</span>',
@@ -888,26 +892,27 @@
 </script>
 
 <script>
-// ---- hero background: animated dot-wave field, mouse-reactive only (no scroll hijack) ----
+// ---- hero background: perspective dot-field ground + two 3D dot-sphere eyes ----
+// Both the ground and the eyes are rendered through the same camera/projection,
+// so the eyes pick up real perspective depth (near dots bigger & brighter, far
+// dots smaller & dimmer) exactly like the wave floor does, and the floor is
+// still visible receding below/around them.
 (function(){
   var hero = document.getElementById('hero');
   var canvas = document.getElementById('wave');
   if (!hero || !canvas) return;
   var ctx = canvas.getContext('2d');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var W, H, DPR, PW, PH;
   var imgData, buf32;
 
-  // ---- grid config ----
+  // ---- ground grid config ----
   var COLS = 300;
   var ROWS = 200;
   var SPACING = 12;
 
-  // ---- camera / projection ----
-  // Ground-plane perspective: horizon sits at the vertical center of the hero,
-  // the field fills from there down to the bottom. CAM_HEIGHT is recomputed on
-  // every resize (as a fraction of the hero's height) so the near edge always
-  // overshoots the bottom of the section, regardless of viewport shape.
+  // ---- shared camera / projection ----
   var FOCAL = 1000;
   var CAM_DIST = 480;
   var MIN_D = 60;
@@ -937,10 +942,85 @@
   resize();
   window.addEventListener('resize', resize);
 
-  // mouse disturbs the wave field, tracked in approximate world space
+  // ---- projection helpers, shared by ground dots and eye dots ----
+  function project(x, y, z){
+    var xr = x * cosY - z * sinY;
+    var zYawed = x * sinY + z * cosY;
+    var d = zYawed + CAM_DIST;
+    if (d < MIN_D) d = MIN_D;
+    var scale = FOCAL / d;
+    return {
+      sx: PW / 2 + xr * scale * DPR,
+      sy: PH * 0.5 + (CAM_HEIGHT - y) * scale * DPR,
+      near: scale / MAX_SCALE
+    };
+  }
+
+  // eyes use a straight-on (non-yawed) camera so the left/right pair stays
+  // perfectly symmetric and centered — only the ground floor uses the yaw tilt.
+  function projectEye(x, y, z){
+    var d = z + CAM_DIST;
+    if (d < MIN_D) d = MIN_D;
+    var scale = FOCAL / d;
+    return {
+      sx: PW / 2 + x * scale * DPR,
+      sy: PH * 0.5 + (CAM_HEIGHT - y) * scale * DPR,
+      near: scale / MAX_SCALE
+    };
+  }
+
+  var isLittleEndian = (function(){
+    var buf = new ArrayBuffer(4);
+    new Uint32Array(buf)[0] = 0x0a0b0c0d;
+    return new Uint8Array(buf)[0] === 0x0d;
+  })();
+  function packRGBA(r, g, b, a){
+    return isLittleEndian ? (a<<24)|(b<<16)|(g<<8)|r : (r<<24)|(g<<16)|(b<<8)|a;
+  }
+
+  function stampBuf(sx, sy, packed, size){
+    if (sx < 0 || sx >= PW || sy < 0 || sy >= PH) return;
+    if (size <= 1){
+      buf32[sy * PW + sx] = packed;
+      return;
+    }
+    var half = size >> 1;
+    var x0 = Math.max(0, sx - half), x1 = Math.min(PW - 1, sx + half);
+    var y0 = Math.max(0, sy - half), y1 = Math.min(PH - 1, sy + half);
+    for (var yy = y0; yy <= y1; yy++){
+      var rowOff = yy * PW;
+      for (var xx = x0; xx <= x1; xx++) buf32[rowOff + xx] = packed;
+    }
+  }
+
+  // plot a single world-space point, sized & faded by true perspective distance
+  function plotWorld(x, y, z, col, alphaBase, sizeBase){
+    var p = project(x, y, z);
+    var sx = p.sx | 0, sy = p.sy | 0;
+    if (sx < 0 || sx >= PW || sy < 0 || sy >= PH) return;
+    var alpha = Math.min(0.95, alphaBase * (0.45 + 0.55 * p.near));
+    if (alpha <= 0.02) return;
+    var packed = packRGBA(col[0], col[1], col[2], (alpha * 255) | 0);
+    var size = Math.min(4, Math.max(1, Math.round(sizeBase * p.near * DPR)));
+    stampBuf(sx, sy, packed, size);
+  }
+
+  // plot a single world-space point for the eyes (straight, symmetric camera)
+  function plotEye(x, y, z, col, alphaBase, sizeBase){
+    var p = projectEye(x, y, z);
+    var sx = p.sx | 0, sy = p.sy | 0;
+    if (sx < 0 || sx >= PW || sy < 0 || sy >= PH) return;
+    var alpha = Math.min(0.95, alphaBase * (0.45 + 0.55 * p.near));
+    if (alpha <= 0.02) return;
+    var packed = packRGBA(col[0], col[1], col[2], (alpha * 255) | 0);
+    var size = Math.min(4, Math.max(1, Math.round(sizeBase * p.near * DPR)));
+    stampBuf(sx, sy, packed, size);
+  }
+
+  // ==================== GROUND WAVE FLOOR ====================
   var mouseWorldX = 0, mouseWorldZ = ROWS * SPACING * 0.4;
   var targetWorldX = mouseWorldX, targetWorldZ = mouseWorldZ;
-  var mouseActive = false, mouseStrength = 0;
+  var mouseActiveGround = false, mouseStrength = 0;
 
   function screenToWorld(clientX, clientY){
     var rect = hero.getBoundingClientRect();
@@ -950,29 +1030,17 @@
     var wx = nx * COLS * SPACING * 1.1;
     return { x: wx, z: wz };
   }
-  window.addEventListener('mousemove', function(e){
-    var rect = hero.getBoundingClientRect();
-    if (e.clientY < rect.top || e.clientY > rect.bottom) { mouseActive = false; return; }
-    var w = screenToWorld(e.clientX, e.clientY);
-    targetWorldX = w.x;
-    targetWorldZ = w.z;
-    mouseActive = true;
-  });
-  hero.addEventListener('mouseleave', function(){ mouseActive = false; });
 
-  // dominant diagonal wave direction -> long linear ripples running at an angle
   var DIAG_ANGLE = 0.62;
   var cosDiag = Math.cos(DIAG_ANGLE), sinDiag = Math.sin(DIAG_ANGLE);
   var cosDiag2 = Math.cos(DIAG_ANGLE - 1.2), sinDiag2 = Math.sin(DIAG_ANGLE - 1.2);
   var MOUSE_R2_CUTOFF = 1300 * 1300;
 
-  function wave(x, z, t, mx, mz, mStrength){
+  function waveHeight(x, z, t, mx, mz, mStrength){
     var d1 = x * cosDiag + z * sinDiag;
     var d2 = x * cosDiag2 + z * sinDiag2;
-
     var h = Math.sin(d1 * 0.011 - t * 1.15) * 27
           + Math.sin(d2 * 0.018 + t * 0.55) * 9;
-
     if (mStrength > 0.001){
       var dx = x - mx, dz = z - mz;
       var dist2 = dx * dx + dz * dz;
@@ -984,67 +1052,42 @@
     return h;
   }
 
-  // colors pulled from the site's own palette: dim slate dots, teal accent on wave peaks
-  var DOT = [124, 135, 148];   // --text-dim
-  var PEAK = [0, 230, 184];    // --accent
-  var isLittleEndian = (function(){
-    var buf = new ArrayBuffer(4);
-    new Uint32Array(buf)[0] = 0x0a0b0c0d;
-    return new Uint8Array(buf)[0] === 0x0d;
-  })();
-  function packRGBA(r, g, b, a){
-    return isLittleEndian ? (a<<24)|(b<<16)|(g<<8)|r : (r<<24)|(g<<16)|(b<<8)|a;
-  }
+  var DOT = [124, 135, 148];      // --text-dim (ground + sclera dots)
+  var DOT_SHADOW = [70, 80, 92];  // shaded ground / lid-shadow / lash color
+  var PEAK = [0, 230, 184];       // --accent, ground wave peaks
+  var IRIS = [0, 230, 184];
+  var IRIS_DEEP = [0, 140, 115];
+  var FLECK = [255, 176, 32];     // --amber, iris flecks + tear duct
+  var PUPIL = [5, 8, 13];         // --bg
+  var SHINE = [242, 245, 248];    // catchlight
+  var SKIN = [90, 100, 112];      // brow / crease / waterline
 
   var EDGE_FADE_START = ROWS * 0.82;
   var EDGE_FADE_SPAN = ROWS - EDGE_FADE_START;
 
-  // pause rendering work while the hero is scrolled out of view
-  var heroVisible = true;
-  if ('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      heroVisible = entries[0].isIntersecting;
-    }, { threshold: 0 });
-    io.observe(hero);
-  }
-
-  var t = 0;
-  function frame(){
-    requestAnimationFrame(frame);
-    if (!heroVisible) return;
-
-    t += 0.012;
-    buf32.fill(0);
-
-    mouseWorldX += (targetWorldX - mouseWorldX) * 0.08;
-    mouseWorldZ += (targetWorldZ - mouseWorldZ) * 0.08;
-    mouseStrength += ((mouseActive ? 1 : 0) - mouseStrength) * 0.06;
-
+  function drawGround(t){
     var cx = PW / 2;
     var cy = PH * 0.5;
     var pxScale = DPR;
 
     for (var r = ROWS - 1; r >= 0; r--){
       var pz = r * SPACING;
-
       var edgeFade = 1;
       if (r > EDGE_FADE_START) edgeFade = Math.max(0, 1 - (r - EDGE_FADE_START) / EDGE_FADE_SPAN);
       if (edgeFade <= 0.01) continue;
 
       for (var c = 0; c < COLS; c++){
         var px = (c - COLS / 2) * SPACING;
-        var y = wave(px, pz, t, mouseWorldX, mouseWorldZ, mouseStrength);
+        var y = waveHeight(px, pz, t, mouseWorldX, mouseWorldZ, mouseStrength);
 
         var x = px * cosY - pz * sinY;
         var zYawed = px * sinY + pz * cosY;
-
         var d = zYawed + CAM_DIST;
         if (d < MIN_D) d = MIN_D;
 
         var scale = FOCAL / d;
         var sx = (cx + x * scale * pxScale) | 0;
         var sy = (cy + (CAM_HEIGHT - y) * scale * pxScale) | 0;
-
         if (sx < 0 || sx >= PW || sy < cy - 4 || sy >= PH) continue;
 
         var near = scale / MAX_SCALE;
@@ -1053,29 +1096,318 @@
         if (alpha <= 0.02) continue;
 
         var col = peak > 0.5 ? PEAK : DOT;
-        var a255 = (alpha * 255) | 0;
-        var packed = packRGBA(col[0], col[1], col[2], a255);
-
+        var packed = packRGBA(col[0], col[1], col[2], (alpha * 255) | 0);
         var size = Math.min(3, Math.max(1, ((0.85 * scale * 0.55) * pxScale) | 0));
-
-        if (size <= 1){
-          buf32[sy * PW + sx] = packed;
-        } else {
-          var half = size >> 1;
-          var x0 = Math.max(0, sx - half), x1 = Math.min(PW - 1, sx + half);
-          var y0 = Math.max(0, sy - half), y1 = Math.min(PH - 1, sy + half);
-          for (var yy = y0; yy <= y1; yy++){
-            var rowOff = yy * PW;
-            for (var xx = x0; xx <= x1; xx++) buf32[rowOff + xx] = packed;
-          }
-        }
+        stampBuf(sx, sy, packed, size);
       }
     }
+  }
+
+  // ==================== 3D DOT-SPHERE EYES ====================
+  // cheap deterministic hash for stable-but-organic per-dot variation (no per-frame flicker)
+  function hash2(x, y){
+    var s = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+    return s - Math.floor(s);
+  }
+
+  var EYE_Z = 340;          // world depth: how far out the eyes float
+  var EYE_R = 118;          // eyeball sphere radius, world units
+  var EYE_GAP_X = 300;      // world separation of the two eyes from center
+  var EYE_RES = 42;         // sample resolution across the sphere disc
+
+  var TOP_H = 0.60, BOT_H = 0.44;   // eyelid opening, fraction of R
+  var IRIS_FRAC = 0.50, PUPIL_FRAC = 0.20, LIMBAL_FRAC = 0.46;
+
+  function eyeAnchorY(){
+    // float comfortably above the horizon line, scaling with viewport
+    return CAM_HEIGHT * 1.85;
+  }
+
+  // ---- mouse tracking (screen space, eased) ----
+  var curMouseX = 0, curMouseY = 0, targetMouseX = 0, targetMouseY = 0;
+  var mouseActive = false;
+
+  window.addEventListener('mousemove', function(e){
+    var rect = hero.getBoundingClientRect();
+    if (e.clientY < rect.top || e.clientY > rect.bottom) { mouseActive = false; mouseActiveGround = false; return; }
+    targetMouseX = e.clientX - rect.left;
+    targetMouseY = e.clientY - rect.top;
+    mouseActive = true;
+    var w = screenToWorld(e.clientX, e.clientY);
+    targetWorldX = w.x;
+    targetWorldZ = w.z;
+    mouseActiveGround = true;
+  });
+  hero.addEventListener('mouseleave', function(){ mouseActive = false; mouseActiveGround = false; });
+
+  // ---- blink state machine ----
+  var blinkOpenness = 1;
+  var blinking = false, blinkStart = 0;
+  var BLINK_DUR = 220;
+  var nextBlinkAt = performance.now() + 1200 + Math.random() * 2200;
+
+  function updateBlink(now){
+    if (!blinking && now >= nextBlinkAt){
+      blinking = true;
+      blinkStart = now;
+    }
+    if (blinking){
+      var p = (now - blinkStart) / BLINK_DUR;
+      if (p >= 1){
+        blinking = false;
+        blinkOpenness = 1;
+        nextBlinkAt = now + (Math.random() < 0.18 ? 260 : 1800 + Math.random() * 4200);
+      } else {
+        blinkOpenness = p < 0.42 ? 1 - (p / 0.42) : (p - 0.42) / 0.58;
+        blinkOpenness = Math.max(0, Math.min(1, blinkOpenness));
+      }
+    }
+  }
+
+  // pupil aim, expressed as a small offset within the local disc (-1..1 range)
+  function pupilAim(eyeWorldX, eyeWorldY, mx, my){
+    var front = projectEye(eyeWorldX, eyeWorldY, EYE_Z - EYE_R);
+    var dx = mx * DPR - front.sx, dy = my * DPR - front.sy;
+    var span = EYE_R * front.near * DPR * 2.6;
+    var nx = span > 0 ? dx / span : 0;
+    var ny = span > 0 ? dy / span : 0;
+    var mag = Math.sqrt(nx * nx + ny * ny);
+    if (mag > 0.34){ nx = nx / mag * 0.34; ny = ny / mag * 0.34; }
+    return { x: nx, y: ny };
+  }
+
+  // draws one eyeball as a hemisphere of dots, carved by the eyelid opening
+  function drawEyeSphere(eyeWorldX, eyeWorldY, openness, aim, t, seed, innerSign, tilt){
+    var cosT = Math.cos(tilt), sinT = Math.sin(tilt);
+    var step = 2 / EYE_RES;
+
+    for (var j = 0; j <= EYE_RES; j++){
+      var uy0 = -1 + j * step;
+      for (var i = 0; i <= EYE_RES; i++){
+        var ux0 = -1 + i * step;
+
+        // tilt the disc slightly so the eye reads as angled toward the temple
+        var ux = ux0 * cosT - uy0 * sinT;
+        var uy = ux0 * sinT + uy0 * cosT;
+
+        var r2 = ux * ux + uy * uy;
+        if (r2 > 1) continue;
+
+        var edge = Math.sqrt(Math.max(0, 1 - ux * ux));
+        var uyTop = -TOP_H * edge * openness;
+        var uyBot = BOT_H * edge * openness;
+        if (uy < uyTop - 0.02 || uy > uyBot + 0.02) continue;
+
+        var uz = Math.sqrt(Math.max(0, 1 - r2));
+        var wx = eyeWorldX + ux * EYE_R;
+        var wy = eyeWorldY - uy * EYE_R;
+        var wz = EYE_Z - uz * EYE_R;
+
+        var vf = (uyBot > uyTop) ? (uy - uyTop) / (uyBot - uyTop) : 0.5;
+        var innerCorner = (ux * innerSign > 0.72);
+
+        var ddx = ux - aim.x, ddy = uy - aim.y;
+        var dist = Math.sqrt(ddx * ddx + ddy * ddy);
+
+        var col, alpha, size;
+
+        if (openness > 0.1 && dist < PUPIL_FRAC){
+          var hlx = ddx + PUPIL_FRAC * 0.45, hly = ddy + PUPIL_FRAC * 0.45;
+          if (Math.sqrt(hlx * hlx + hly * hly) < PUPIL_FRAC * 0.3){
+            col = SHINE; alpha = 0.95; size = 2.6;
+          } else {
+            col = PUPIL; alpha = 0.95; size = 2.8;
+          }
+        } else if (openness > 0.1 && dist < IRIS_FRAC){
+          var ang = Math.atan2(ddy, ddx);
+          var rf = dist / IRIS_FRAC;
+          var fiber = Math.sin(ang * 26 + seed * 6.28) * 0.5 + 0.5;
+          var fleck = hash2(Math.round(wx * 0.5), Math.round(wy * 0.5)) > 0.965;
+          if (fleck && rf < 0.8){
+            col = FLECK; alpha = 0.55;
+          } else if (rf > LIMBAL_FRAC / IRIS_FRAC){
+            col = IRIS_DEEP; alpha = 0.78;
+          } else {
+            col = fiber > 0.42 ? IRIS : IRIS_DEEP;
+            alpha = 0.52 + fiber * 0.3 + (1 - rf) * 0.12;
+          }
+          size = 2.6;
+        } else if (innerCorner && vf > 0.25 && vf < 0.85){
+          col = FLECK; alpha = 0.2 + 0.1 * hash2(wx, wy); size = 2.2;
+        } else {
+          var underLid = vf < 0.22 ? (0.22 - vf) / 0.22 : 0;
+          var cornerDark = Math.max(0, (Math.abs(ux) - 0.68) / 0.32);
+          var shade = Math.max(underLid, cornerDark * 0.7);
+          col = shade > 0.4 ? DOT_SHADOW : DOT;
+          alpha = (0.3 + 0.16 * Math.sin(wx * 0.05 + wy * 0.05 + t + seed)) * (1 - shade * 0.5);
+          size = 2.4;
+        }
+
+        plotEye(wx, wy, wz, col, alpha * (0.32 + 0.68 * openness), size);
+      }
+    }
+
+    drawLidDetail(eyeWorldX, eyeWorldY, openness, cosT, sinT);
+    drawLashes(eyeWorldX, eyeWorldY, openness, t, seed, innerSign, cosT, sinT);
+  }
+
+  // lid crease + lower waterline, riding just off the sphere surface
+  function drawLidDetail(eyeWorldX, eyeWorldY, openness, cosT, sinT){
+    var steps = 16;
+    for (var i = 0; i <= steps; i++){
+      var f = -1 + i * (2 / steps);
+      var e = Math.sqrt(Math.max(0, 1 - f * f));
+      var ux0 = f, uy0 = -TOP_H * e * openness - 0.18 - 0.05 * openness;
+      var ux = ux0 * cosT - uy0 * sinT, uy = ux0 * sinT + uy0 * cosT;
+      var r2 = Math.min(0.98, ux * ux + uy * uy);
+      var uz = Math.sqrt(Math.max(0.05, 1 - r2));
+      var wx = eyeWorldX + ux * EYE_R;
+      var wy = eyeWorldY - uy * EYE_R;
+      var wz = EYE_Z - uz * EYE_R - 3;
+      plotEye(wx, wy, wz, SKIN, 0.16 + 0.08 * e, 2.2);
+    }
+    var wlSteps = 14;
+    for (var j = 2; j <= wlSteps - 2; j++){
+      var fw = -1 + j * (2 / wlSteps);
+      var ew = Math.sqrt(Math.max(0, 1 - fw * fw));
+      var uxw0 = fw * 0.9, uyw0 = BOT_H * ew * openness * 0.94;
+      var uxw = uxw0 * cosT - uyw0 * sinT, uyw = uxw0 * sinT + uyw0 * cosT;
+      var r2w = Math.min(0.98, uxw * uxw + uyw * uyw);
+      var uzw = Math.sqrt(Math.max(0.05, 1 - r2w));
+      var wxw = eyeWorldX + uxw * EYE_R;
+      var wyw = eyeWorldY - uyw * EYE_R;
+      var wzw = EYE_Z - uzw * EYE_R - 2;
+      plotEye(wxw, wyw, wzw, SKIN, 0.14 * openness, 2);
+    }
+  }
+
+  // curled lashes fanning off the upper lid, curling forward toward the camera
+  function drawLashes(eyeWorldX, eyeWorldY, openness, t, seed, innerSign, cosT, sinT){
+    var count = 9;
+    for (var i = 0; i < count; i++){
+      var xf = -0.88 + i * (1.76 / (count - 1));
+      var edge = Math.sqrt(Math.max(0, 1 - xf * xf));
+      var baseUx0 = xf, baseUy0 = -TOP_H * edge * openness;
+
+      var outerness = (xf * innerSign < 0) ? Math.abs(xf) : Math.abs(xf) * 0.6;
+      var len = (0.14 + outerness * 0.22) * (0.28 + 0.72 * openness);
+      var baseAngle = -Math.PI / 2 - xf * 0.95;
+      var curl = 0.6;
+
+      var ux0 = baseUx0, uy0 = baseUy0;
+      var steps = 6;
+      for (var s = 1; s <= steps; s++){
+        var frac = s / steps;
+        var ang = baseAngle - curl * frac * frac;
+        var stepLen = len / steps;
+        var ux1 = ux0 + Math.cos(ang) * stepLen;
+        var uy1 = uy0 + Math.sin(ang) * stepLen;
+
+        var ux = ux1 * cosT - uy1 * sinT, uy = ux1 * sinT + uy1 * cosT;
+        var r2 = ux * ux + uy * uy;
+        var uz = r2 < 1 ? Math.sqrt(1 - r2) : 0;
+        var wx = eyeWorldX + ux * EYE_R;
+        var wy = eyeWorldY - uy * EYE_R;
+        // curl forward, toward the camera, the further out the strand reaches
+        var wz = EYE_Z - uz * EYE_R - 6 - frac * 26;
+
+        var alpha = (0.55 - frac * 0.32) * (0.35 + 0.65 * openness);
+        plotEye(wx, wy, wz, DOT_SHADOW, alpha, frac < 0.6 ? 2.6 : 2);
+        ux0 = ux1; uy0 = uy1;
+      }
+    }
+
+    var lcount = 3;
+    for (var k = 0; k < lcount; k++){
+      var lxf = innerSign * -1 * (0.45 + k * 0.18);
+      var ledge = Math.sqrt(Math.max(0, 1 - lxf * lxf));
+      var lux0 = lxf, luy0 = BOT_H * ledge * openness;
+      var llen = 0.06 * (0.3 + 0.7 * openness);
+      var lang = Math.PI / 2 + lxf * 0.5;
+      var lux1 = lux0 + Math.cos(lang) * llen, luy1 = luy0 + Math.sin(lang) * llen;
+
+      var lux = lux1 * cosT - luy1 * sinT, luy = lux1 * sinT + luy1 * cosT;
+      var lr2 = Math.min(0.98, lux * lux + luy * luy);
+      var luz = Math.sqrt(Math.max(0.05, 1 - lr2));
+      var wx1 = eyeWorldX + lux * EYE_R, wy1 = eyeWorldY - luy * EYE_R, wz1 = EYE_Z - luz * EYE_R - 8;
+      plotEye(wx1, wy1, wz1, DOT_SHADOW, 0.24 * openness, 2);
+    }
+  }
+
+  // a soft dotted brow arching above the eye, sitting slightly forward of the socket
+  function drawBrow(eyeWorldX, eyeWorldY, tilt, innerSign){
+    var cosT = Math.cos(tilt * 1.4), sinT = Math.sin(tilt * 1.4);
+    var steps = 20;
+    var browUyBase = -TOP_H - 0.42;
+    var arch = 0.26;
+    var peakShift = -innerSign * 0.25;
+    for (var i = 0; i <= steps; i++){
+      var f = -1 + i * (2 / steps);
+      var e = Math.pow(Math.max(0, 1 - f * f), 0.6);
+      var ux0 = f * 1.05;
+      var uy0 = browUyBase - arch * e * (1 - 0.25 * f * peakShift);
+      for (var th = -1; th <= 1; th++){
+        var uy0t = uy0 + th * 0.018;
+        var ux = ux0 * cosT - uy0t * sinT, uy = ux0 * sinT + uy0t * cosT;
+        var r2 = ux * ux + uy * uy;
+        var uz = r2 < 1 ? Math.sqrt(1 - r2) : 0.15;
+        var wx = eyeWorldX + ux * EYE_R;
+        var wy = eyeWorldY - uy * EYE_R;
+        var wz = EYE_Z - uz * EYE_R - 14;
+        var alpha = (th === 0 ? 0.34 : 0.2) * (0.6 + 0.4 * e);
+        plotEye(wx, wy, wz, SKIN, alpha, 2.4);
+      }
+    }
+  }
+
+  var heroVisible = true;
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      heroVisible = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    io.observe(hero);
+  }
+
+  function render(t){
+    buf32.fill(0);
+    drawGround(t);
+
+    var eyeY = eyeAnchorY();
+    var mx = mouseActive ? curMouseX : W / 2;
+    var my = mouseActive ? curMouseY : H * 0.42;
+
+    var leftAim = pupilAim(-EYE_GAP_X, eyeY, mx, my);
+    var rightAim = pupilAim(EYE_GAP_X, eyeY, mx, my);
+
+    drawBrow(-EYE_GAP_X, eyeY, -0.16, 1);
+    drawBrow(EYE_GAP_X, eyeY, 0.16, -1);
+    drawEyeSphere(-EYE_GAP_X, eyeY, blinkOpenness, leftAim, t, 0, 1, -0.1);
+    drawEyeSphere(EYE_GAP_X, eyeY, blinkOpenness, rightAim, t, 3.1, -1, 0.1);
 
     ctx.putImageData(imgData, 0, 0);
   }
 
-  requestAnimationFrame(frame);
+  if (reduceMotion){
+    render(0);
+  } else {
+    var t = 0;
+    function frame(){
+      requestAnimationFrame(frame);
+      if (!heroVisible) return;
+
+      var now = performance.now();
+      t += 0.014;
+      updateBlink(now);
+      curMouseX += (targetMouseX - curMouseX) * 0.12;
+      curMouseY += (targetMouseY - curMouseY) * 0.12;
+      mouseWorldX += (targetWorldX - mouseWorldX) * 0.08;
+      mouseWorldZ += (targetWorldZ - mouseWorldZ) * 0.08;
+      mouseStrength += ((mouseActiveGround ? 1 : 0) - mouseStrength) * 0.06;
+
+      render(t);
+    }
+    requestAnimationFrame(frame);
+  }
 })();
 </script>
 
