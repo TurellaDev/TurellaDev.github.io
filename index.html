@@ -7,6 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&family=Nova+Script&display=swap" rel="stylesheet">
+  
+  <!-- Importações para conseguir Executar o React (Bibliotecas via CDN) -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <style>
     /* ----- Variáveis globais (cores, fontes, bordas) ----- */
     :root{
@@ -102,7 +108,7 @@
     .lang-btn{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;padding:5px 9px;color:var(--text-dimmer);}
     .lang-btn.active{color:#04120e;background:var(--accent);font-weight:600;}
 
-    /* ----- Container do Brainheimer (visualizador de TSX) ----- */
+    /* ----- Container do Brainheimer (VISOR DE EXECUÇÃO) ----- */
     #brainheimer-container {
       display: none; /* oculto por padrão */
       position: fixed;
@@ -158,26 +164,17 @@
     #brainheimer-header .close-btn:hover {
       color: var(--accent);
     }
-    /* Corpo do container (onde o código TSX é mostrado) */
+    /* Corpo do container (Onde a App React será executada) */
     #brainheimer-body {
-      padding: 20px 24px;
-      overflow-y: auto;
+      padding: 0px;
+      overflow: hidden;
       flex: 1;
       background: #0a0e16;
-      color: #d4dee8;
-      font-size: 13px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-      word-break: break-word;
+      height: 100%;
+      width: 100%;
+      position: relative;
     }
-    /* Estilos para realce de sintaxe (simples) */
-    #brainheimer-body .token-keyword { color: #c792ea; }
-    #brainheimer-body .token-string { color: #c3e88d; }
-    #brainheimer-body .token-comment { color: #546e7a; font-style: italic; }
-    #brainheimer-body .token-function { color: #82aaff; }
-    #brainheimer-body .token-number { color: #f78c6c; }
-    #brainheimer-body .token-jsx-tag { color: #ffcb6b; }
-    #brainheimer-body .token-jsx-attr { color: #c792ea; }
+    /* Removemos os estilos de syntax highlight, pois agora é um runner */
 
     /* Overlay escuro por trás do container */
     #brainheimer-overlay {
@@ -298,15 +295,15 @@
 <div id="cur-ring"></div>
 <div id="cur-dot"></div>
 
-<!-- Container e overlay do Brainheimer (visualizador de TSX) -->
+<!-- Container e overlay do Brainheimer (EXECUTOR) -->
 <div id="brainheimer-overlay"></div>
 <div id="brainheimer-container">
   <div id="brainheimer-header">
-    <span>🧠 brainheimer.tsx</span>
+    <span>🧠 brainheimer.tsx (em execução)</span>
     <button class="close-btn" id="brainheimer-close">✕</button>
   </div>
   <div id="brainheimer-body">
-    <span class="token-comment">// a carregar /brainheimer.tsx …</span>
+    <!-- O React será renderizado AQUI -->
   </div>
 </div>
 
@@ -488,9 +485,8 @@
 <script>
   (function(){
     // ============================================================
-    // 1. LÓGICA DO BRAINHEIMER (visualizador de TSX)
-    //    Ao clicar no link "Brainheimer", abre um container que
-    //    faz fetch do ficheiro /brainheimer.tsx e mostra o código.
+    // 1. LÓGICA DO BRAINHEIMER (EXECUTOR DE APP)
+    //    Ao clicar, ele lê o ficheiro .tsx do GitHub, compila com Babel e EXECUTA.
     // ============================================================
     const container = document.getElementById('brainheimer-container');
     const overlay = document.getElementById('brainheimer-overlay');
@@ -504,52 +500,60 @@
       overlay.classList.remove('open');
       container.style.display = 'none';
       overlay.style.display = 'none';
+      bodyEl.innerHTML = ''; // Limpa a app React ao fechar
     }
 
-    // Função para abrir o container e carregar o ficheiro
+    // Função para abrir o container e EXECUTAR o ficheiro
     function openBrainheimer() {
       container.style.display = 'flex';
       overlay.style.display = 'block';
-      // Força um reflow para a animação funcionar
-      void container.offsetWidth;
+      void container.offsetWidth; // Reflow
       container.classList.add('open');
       overlay.classList.add('open');
-      loadBrainheimerFile();
+      loadAndRunBrainheimer();
     }
 
-    // Função que faz fetch do /brainheimer.tsx e aplica realce de sintaxe
-    function loadBrainheimerFile() {
-      bodyEl.innerHTML = '<span class="token-comment">// a carregar /brainheimer.tsx …</span>';
-      fetch('/brainheimer.tsx')
+    // Função que carrega o TSX e o executa
+    function loadAndRunBrainheimer() {
+      bodyEl.innerHTML = '<div style="padding:20px; color:#7c8794;">A iniciar Brainheimer...</div>';
+      
+      // Buscamos o link RAW do teu ficheiro no GitHub (se for um repositório público)
+      // Altera este link para o link RAW correto do teu repositório, ou mantém o teu caminho original se o servidor permitir
+      fetch('https://raw.githubusercontent.com/TurellaDev/TurellaDev/main/brainheimer.tsx')
         .then(res => {
           if (!res.ok) throw new Error('HTTP ' + res.status);
           return res.text();
         })
-        .then(text => {
-          // Realce de sintaxe muito básico (apenas para demonstração)
-          const highlighted = text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/(\/\/.*)/g, '<span class="token-comment">$1</span>')
-            .replace(/\b(import|export|from|const|let|var|function|return|if|else|for|while|class|interface|type|extends|implements|new|this|super|void|number|string|boolean|any|unknown|never|readonly|declare|module|namespace|public|private|protected|static|abstract|readonly)\b/g, '<span class="token-keyword">$1</span>')
-            .replace(/"([^"]*)"/g, '<span class="token-string">"$1"</span>')
-            .replace(/'([^']*)'/g, '<span class="token-string">\'$1\'</span>')
-            .replace(/\b(\d+)\b/g, '<span class="token-number">$1</span>')
-            .replace(/\b(React|useState|useEffect|useRef|useCallback|useMemo|useContext|createContext|Provider|Consumer|Fragment|Component|PureComponent|memo|forwardRef|createRef|createElement|cloneElement|isValidElement|Children)\b/g, '<span class="token-function">$1</span>')
-            .replace(/(<[\/]?[A-Za-z][A-Za-z0-9]*)/g, '<span class="token-jsx-tag">$1</span>')
-            .replace(/\s([a-zA-Z]+)=/g, ' <span class="token-jsx-attr">$1</span>=');
+        .then(code => {
+          // 1. Limpa o container
+          bodyEl.innerHTML = '';
+          
+          // 2. Cria uma div específica onde o React vai montar o App
+          const rootDiv = document.createElement('div');
+          rootDiv.id = 'brainheimer-root';
+          rootDiv.style.width = '100%';
+          rootDiv.style.height = '100%';
+          rootDiv.style.background = '#0a0e16';
+          bodyEl.appendChild(rootDiv);
 
-          bodyEl.innerHTML = highlighted.split('\n').map(line =>
-            `<span class="tsx-line">${line || ' '}</span>`
-          ).join('');
+          // 3. Transforma o TSX em JS (executável) usando Babel
+          const compiledCode = Babel.transform(code, { presets: ['react', 'typescript'] }).code;
+
+          // 4. Altera o código compilado para garantir que ele renderize no rootDiv, não no body global
+          // Procura por `document.getElementById('root')` e substitui
+          const safeCode = compiledCode.replace(/document\.getElementById\(['"]root['"]\)/g, 'document.getElementById("brainheimer-root")');
+
+          // 5. Cria um script para injetar e executar o código
+          const script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.textContent = safeCode;
+          bodyEl.appendChild(script);
         })
         .catch(err => {
-          bodyEl.innerHTML = `<span class="token-comment">// erro ao carregar /brainheimer.tsx — ${err.message}</span>`;
+          bodyEl.innerHTML = `<div style="padding:20px; color:#ff6b6b;">Erro ao carregar o Brainheimer: ${err.message}</div>`;
         });
     }
 
-    // Event listeners do Brainheimer
     trigger.addEventListener('click', function(e) {
       e.preventDefault();
       if (container.classList.contains('open')) {
@@ -569,7 +573,6 @@
 
     // ============================================================
     // 2. INTERNACIONALIZAÇÃO (i18n) - PT/EN/ES
-    //    Altera o texto da página conforme o idioma selecionado.
     // ============================================================
     const I18N = {
       pt: {
@@ -668,7 +671,6 @@
 
     // ============================================================
     // 4. SEQUÊNCIA DE INICIALIZAÇÃO (BOOT) NA HERO
-    //    Mostra linhas de terminal uma a uma.
     // ============================================================
     const bootEl=document.getElementById('boot');
     const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -709,7 +711,6 @@
 
     // ============================================================
     // 11. CANVAS DA ONDA NA HERO (background animado)
-    //     Mantido da versão original, com efeito 3D de pontos.
     // ============================================================
     (function(){
       var hero=document.getElementById('hero'); var canvas=document.getElementById('wave'); if(!hero||!canvas)return; var ctx=canvas.getContext('2d'); var reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
